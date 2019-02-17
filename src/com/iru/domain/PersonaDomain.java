@@ -1,22 +1,22 @@
 package com.iru.domain;
 
-public abstract class Person {
+public abstract class PersonaDomain {
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
 
-    public Person() {
+    public PersonaDomain() {
     }
 
-    public Person(String firstName, String lastName, String email, String phoneNumber) {
+    public PersonaDomain(String firstName, String lastName, String email, String phoneNumber) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phoneNumber = phoneNumber;
     }
 
-    public Person(String firstName, String lastName){
+    public PersonaDomain(String firstName, String lastName){
         this.firstName = firstName;
         this.lastName = lastName;
     }
