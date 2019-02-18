@@ -37,7 +37,7 @@ public class StudJDBC implements StudDao {
 
     @Override
     public StudDomain findById(Long id) throws DaoException {
-        StudDomain student = new StudDomain();
+        StudDomain studDomain = new StudDomain();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -49,7 +49,7 @@ public class StudJDBC implements StudDao {
             if (resultSet.next() == false) {
                 return null;
             } else {
-                student = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
+                studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -62,12 +62,12 @@ public class StudJDBC implements StudDao {
                 e.printStackTrace();
             }
         }
-        return student;
+        return studDomain;
     }
 
     @Override
     public StudDomain findByFullName(String firstName, String lastName) throws DaoException {
-        StudDomain student = new StudDomain();
+        StudDomain studDomain = new StudDomain();
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
@@ -80,7 +80,7 @@ public class StudJDBC implements StudDao {
             if (resultSet.next() == false) {
                 return null;
             } else {
-                student = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
+                studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -93,7 +93,7 @@ public class StudJDBC implements StudDao {
                 e.printStackTrace();
             }
         }
-        return student;
+        return studDomain;
     }
 
     @Override
@@ -107,12 +107,12 @@ public class StudJDBC implements StudDao {
             resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 do {
-                    StudDomain student = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
-                    list.add(student);
+                    StudDomain studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
+                    list.add(studDomain);
                 } while (resultSet.next());
             }
         } catch (SQLException e) {
-            throw new DaoException("List of students is empty", e);
+            throw new DaoException("List of studDomains is empty", e);
         } finally {
             try {
                 resultSet.close();
@@ -126,27 +126,27 @@ public class StudJDBC implements StudDao {
     }
 
     @Override
-    public StudDomain create(StudDomain student) throws DaoException {
+    public StudDomain create(StudDomain studDomain) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         try {
             connection = daoFactory.getConnection();
             statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS);
-            statement.setString(1, student.getFirstName());
-            statement.setString(2, student.getLastName());
-            statement.setString(3, student.getEmail());
-            statement.setString(4, student.getPhoneNumber());
-            statement.setDate(5, Date.valueOf(student.getEnrolmentDate()));
+            statement.setString(1, studDomain.getFirstName());
+            statement.setString(2, studDomain.getLastName());
+            statement.setString(3, studDomain.getEmail());
+            statement.setString(4, studDomain.getPhoneNumber());
+            statement.setDate(5, Date.valueOf(studDomain.getEnrolmentDate()));
             statement.execute();
             resultSet = statement.getGeneratedKeys();
             resultSet.next();
-            student = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getDate("enrolment_date").toLocalDate());
-            student.setFirstName(resultSet.getString("first_name"));
-            student.setLastName(resultSet.getString("last_name"));
-            student.setEmail(resultSet.getString("email"));
-            student.setPhoneNumber(resultSet.getString("phone_number"));
-            student.setEnrolmentDate(resultSet.getDate("enrolment_date").toLocalDate());
+            studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getDate("enrolment_date").toLocalDate());
+            studDomain.setFirstName(resultSet.getString("first_name"));
+            studDomain.setLastName(resultSet.getString("last_name"));
+            studDomain.setEmail(resultSet.getString("email"));
+            studDomain.setPhoneNumber(resultSet.getString("phone_number"));
+            studDomain.setEnrolmentDate(resultSet.getDate("enrolment_date").toLocalDate());
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -158,22 +158,22 @@ public class StudJDBC implements StudDao {
                 e.printStackTrace();
             }
         }
-        return student;
+        return studDomain;
     }
 
     @Override
-    public StudDomain update(StudDomain student) throws DaoException {
+    public StudDomain update(StudDomain studDomain) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = daoFactory.getConnection();
             statement = connection.prepareStatement(SQL_UPDATE_STUDENT);
-            statement.setString(1, student.getFirstName());
-            statement.setString(2, student.getLastName());
-            statement.setString(3, student.getEmail());
-            statement.setString(4, student.getPhoneNumber());
-            statement.setDate(5, Date.valueOf(student.getEnrolmentDate()));
-            statement.setLong(6, student.getId());
+            statement.setString(1, studDomain.getFirstName());
+            statement.setString(2, studDomain.getLastName());
+            statement.setString(3, studDomain.getEmail());
+            statement.setString(4, studDomain.getPhoneNumber());
+            statement.setDate(5, Date.valueOf(studDomain.getEnrolmentDate()));
+            statement.setLong(6, studDomain.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -185,17 +185,17 @@ public class StudJDBC implements StudDao {
                 e.printStackTrace();
             }
         }
-        return student;
+        return studDomain;
     }
 
     @Override
-    public void delete(StudDomain student) throws DaoException {
+    public void delete(StudDomain studDomain) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = daoFactory.getConnection();
             statement = connection.prepareStatement(SQL_DELETE_STUDENT);
-            statement.setLong(1, student.getId());
+            statement.setLong(1, studDomain.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
