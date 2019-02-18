@@ -8,19 +8,19 @@ public class DepaDomain {
     private int id;
     private String name;
     private String abbreviation;
-    private List<GrouDomain> groups = new ArrayList<>();
+    private List<GrouDomain> grouDomains = new ArrayList<>();
     private List<TeachDomain> teachDomains = new ArrayList<>();
     private List<SubjDomain> subjDomains = new ArrayList<>();
 
     public DepaDomain() {
     }
 
-    public DepaDomain(int id, String name, String abbreviation, List<GrouDomain> groups, List<TeachDomain> teachDomains,
+    public DepaDomain(int id, String name, String abbreviation, List<GrouDomain> grouDomains, List<TeachDomain> teachDomains,
                       List<SubjDomain> subjDomains) {
         this.id = id;
         this.name = name;
         this.abbreviation = abbreviation;
-        this.groups = groups;
+        this.grouDomains = grouDomains;
         this.teachDomains = teachDomains;
         this.subjDomains = subjDomains;
     }
@@ -53,12 +53,12 @@ public class DepaDomain {
         this.abbreviation = abbreviation;
     }
 
-    public List<GrouDomain> getGroups() {
-        return groups;
+    public List<GrouDomain> getGrouDomains() {
+        return grouDomains;
     }
 
-    public void setGroups(List<GrouDomain> groups) {
-        this.groups = groups;
+    public void setGrouDomains(List<GrouDomain> grouDomains) {
+        this.grouDomains = grouDomains;
     }
 
     public List<TeachDomain> getTeachDomains() {
