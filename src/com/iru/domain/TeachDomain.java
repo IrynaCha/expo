@@ -29,6 +29,7 @@ public class TeachDomain extends PersonaDomain {
         super(firstName, lastName, email, phoneNumber);
         this.position = position;
     }
+
     public int getId() {
         return id;
     }
