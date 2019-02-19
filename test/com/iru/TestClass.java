@@ -12,24 +12,24 @@ import static org.junit.Assert.assertNotNull;
 
 public class TestClass {
     @Test
-    public void shouldFindStudentById() throws Exception {
+    public void shouldFindStudDomainById() throws Exception {
         StudJDBC obj = new StudJDBC(new DaoFactory());
         Long id = 3L;
         StudDomain studDomain = obj.findById(id);
         assertEquals(studDomain.getId(), id);
     }
 
-    /*@Test
-    public void shouldFindStudentByFullName() throws Exception {
+  /*  @Test
+    public void shouldFindStudDomainByFullName() throws Exception {
         StudJDBC obj = new StudJDBC(new DaoFactory());
         String firstName = "A";
         String lastName = "AAA";
-        StudDomain stud = obj.findByFullName(firstName, lastName);
-        assertEquals(stud.getFirstName(), firstName);
+        StudDomain studDomain = obj.findByFullName(firstName, lastName);
+        assertEquals(studDomain.getFirstName(), firstName);
     }
 
     @Test
-    public void shouldShowStudentsList() throws Exception {
+    public void shouldShowStudDomainsList() throws Exception {
         StudJDBC obj = new StudJDBC(new DaoFactory());
         int expected = 16;
         int actual = obj.list().size();
@@ -37,20 +37,20 @@ public class TestClass {
     }
 
     @Test
-    public void shouldCreateNewStudent()throws Exception{
+    public void shouldCreateNewStudDomain() throws Exception {
         StudJDBC obj = new StudJDBC(new DaoFactory());
-        StudDomain stud = new StudDomain();
-        stud.setFirstName("m");
-        stud.setLastName("k");
-        stud.setEmail("pppppp");
-        stud.setPhoneNumber("15");
-        stud.setEnrolmentDate(LocalDate.parse("2010-10-10"));
-        StudDomain newStudent = obj.create(stud);
-        assertEquals("m", newStudent.getFirstName());
+        StudDomain studDomain = new StudDomain();
+        studDomain.setFirstName("m");
+        studDomain.setLastName("k");
+        studDomain.setEmail("pppppp");
+        studDomain.setPhoneNumber("15");
+        studDomain.setEnrolmentDate(LocalDate.parse("2010-10-10"));
+        StudDomain newStudDomain = obj.create(studDomain);
+        assertEquals("m", newStudDomain.getFirstName());
     }
 
     @Test
-    public void shouldUpdateStudent(){
+    public void shouldUpdateStudDomain() {
         StudJDBC obj = new StudJDBC(new DaoFactory());
         Long id = 3L;
         StudDomain studDomain = obj.findById(id);
@@ -65,11 +65,11 @@ public class TestClass {
     }
 
     @Test
-    public void shouldDeleteStudent(){
+    public void shouldDeleteStudDomain() {
         StudJDBC obj = new StudJDBC(new DaoFactory());
         Long id = 16L;
         StudDomain studDomain = obj.findById(id);
-        assertNotNull("Such student does not exist!", studDomain);
+        assertNotNull("Such studDomain does not exist!", studDomain);
         obj.delete(studDomain);
     }*/
 }
