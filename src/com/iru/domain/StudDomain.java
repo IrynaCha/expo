@@ -10,7 +10,7 @@ public class StudDomain extends PersonaDomain {
     public StudDomain() {
     }
 
-    public StudDomain(String firstName, String lastName){
+    public StudDomain(String firstName, String lastName) {
         super(firstName, lastName);
     }
 
