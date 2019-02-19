@@ -17,10 +17,10 @@ public class StudJDBC implements StudDao {
             "SELECT * FROM students where student_id = ?;";
 
     private static final String SQL_SHOW_LIST =
-            "SELECT student_id, first_name, last_name, email, phone_number, enrolment_date FROM students;";
+            "SELECT * FROM students;";
 
     private static final String SQL_FIND_BY_FULL_NAME =
-            "SELECT student_id, first_name, last_name, email, phone_number, enrolment_date FROM students where first_name = ? and last_name = ?;";
+            "SELECT * FROM students where first_name = ? and last_name = ?;";
 
     private static final String SQL_INSERT_STUDENT =
             "INSERT INTO students(first_name, last_name, email, phone_number, enrolment_date) VALUES (?, ?, ?, ?, ?);";
