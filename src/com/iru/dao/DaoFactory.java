@@ -25,7 +25,7 @@ public class DaoFactory {
         Path currentPath = Paths.get("");
         String s = currentPath.toAbsolutePath().toString();
         try {
-            properties.load(new FileInputStream(s+"\\src\\com\\iru\\db.properties"));
+            properties.load(new FileInputStream(s+"\\resources\\db.properties"));//D:\draft_uni\resources
         } catch (IOException e) {
             e.printStackTrace();
         }
