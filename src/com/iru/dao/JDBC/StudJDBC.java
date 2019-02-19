@@ -46,7 +46,7 @@ public class StudJDBC implements StudDao {
             statement = connection.prepareStatement(SQL_FIND_BY_ID);
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
-            if (resultSet.next() == false) {
+            if (!resultSet.next()) {
                 return null;
             } else {
                 studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
@@ -77,7 +77,7 @@ public class StudJDBC implements StudDao {
             statement.setString(1, firstName);
             statement.setString(2, lastName);
             resultSet = statement.executeQuery();
-            if (resultSet.next() == false) {
+            if (!resultSet.next()) {
                 return null;
             } else {
                 studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
