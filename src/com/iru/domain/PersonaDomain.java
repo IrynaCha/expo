@@ -16,7 +16,7 @@ public abstract class PersonaDomain {
         this.phoneNumber = phoneNumber;
     }
 
-    public PersonaDomain(String firstName, String lastName){
+    public PersonaDomain(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
