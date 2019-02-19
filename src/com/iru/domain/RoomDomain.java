@@ -52,4 +52,3 @@ public class RoomDomain {
         return "RoomDomain [id=" + id + ", number=" + number + "]";
     }
 }
-
