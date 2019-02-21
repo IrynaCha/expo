@@ -98,13 +98,7 @@ public class StudJDBC implements StudDao {
 
     @Override
     public List<StudDomain> list() throws DaoException {
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = daoFactory.getConnection();
-            statement = connection.prepareStatement(SQL_SHOW_LIST);
-            resultSet = statement.executeQuery();
+        try (Connection connection = daoFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SHOW_LIST); ResultSet resultSet = statement.executeQuery()) {
             if (resultSet.next()) {
                 do {
                     StudDomain studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
@@ -113,14 +107,6 @@ public class StudJDBC implements StudDao {
             }
         } catch (SQLException e) {
             throw new DaoException("List of studDomains is empty", e);
-        } finally {
-            try {
-                resultSet.close();
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return list;
     }
@@ -180,7 +166,7 @@ public class StudJDBC implements StudDao {
 
     @Override
     public void delete(StudDomain studDomain) throws DaoException {
-        Connection connection = null;
+        /*Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = daoFactory.getConnection();
@@ -193,6 +179,20 @@ public class StudJDBC implements StudDao {
             try {
                 statement.close();
                 connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }*/
+        PreparedStatement statement = null;
+        try (Connection connection = daoFactory.getConnection()) {
+            statement = connection.prepareStatement(SQL_DELETE_STUDENT);
+            statement.setLong(1, studDomain.getId());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                statement.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
