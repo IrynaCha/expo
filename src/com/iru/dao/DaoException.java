@@ -1,7 +1,7 @@
 package com.iru.dao;
 
 public class DaoException extends RuntimeException {
-    public static final long serialVersionUID = 1L;
+//    public static final long serialVersionUID = 1L;
 
     public DaoException(String message) {
         super(message);
