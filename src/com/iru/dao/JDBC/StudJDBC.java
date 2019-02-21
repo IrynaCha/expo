@@ -129,7 +129,6 @@ public class StudJDBC implements StudDao {
     public StudDomain create(StudDomain studDomain) throws DaoException {
         Connection connection = null;
         PreparedStatement statement = null;
-        ResultSet resultSet = null;
         try {
             connection = daoFactory.getConnection();
             statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS);
@@ -139,19 +138,10 @@ public class StudJDBC implements StudDao {
             statement.setString(4, studDomain.getPhoneNumber());
             statement.setDate(5, Date.valueOf(studDomain.getEnrolmentDate()));
             statement.execute();
-            resultSet = statement.getGeneratedKeys();
-            resultSet.next();
-            studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getDate("enrolment_date").toLocalDate());
-            studDomain.setFirstName(resultSet.getString("first_name"));
-            studDomain.setLastName(resultSet.getString("last_name"));
-            studDomain.setEmail(resultSet.getString("email"));
-            studDomain.setPhoneNumber(resultSet.getString("phone_number"));
-            studDomain.setEnrolmentDate(resultSet.getDate("enrolment_date").toLocalDate());
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Can't create a new studDomain", e);
         } finally {
             try {
-                resultSet.close();
                 statement.close();
                 connection.close();
             } catch (SQLException e) {
