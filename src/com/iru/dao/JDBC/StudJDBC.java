@@ -37,13 +37,11 @@ public class StudJDBC implements StudDao {
 
     @Override
     public StudDomain findById(Long id) throws DaoException {
-        StudDomain studDomain = new StudDomain();
-        Connection connection = null;
-        PreparedStatement statement = null;
+        StudDomain studDomain;// = new StudDomain();
+
+
         ResultSet resultSet = null;
-        try {
-            connection = daoFactory.getConnection();
-            statement = connection.prepareStatement(SQL_FIND_BY_ID);
+        try (Connection connection = daoFactory.getConnection();PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)){
             statement.setLong(1, id);
             resultSet = statement.executeQuery();
             if (!resultSet.next()) {
@@ -56,8 +54,8 @@ public class StudJDBC implements StudDao {
         } finally {
             try {
                 resultSet.close();
-                statement.close();
-                connection.close();
+//                statement.close();
+//                connection.close();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
