@@ -2,6 +2,7 @@ package com.iru.dao.JDBC;
 
 import com.iru.dao.DaoException;
 import com.iru.dao.DaoFactory;
+import com.iru.dao.GenericDao;
 import com.iru.dao.StudDao;
 import com.iru.domain.StudDomain;
 
@@ -9,7 +10,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudJDBC implements StudDao {
+public class StudJDBC implements StudDao, GenericDao<StudDomain> {
     private DaoFactory daoFactory;
     private List<StudDomain> list = new ArrayList<>();
 
@@ -48,14 +49,14 @@ public class StudJDBC implements StudDao {
                 studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
             }
         } catch (SQLException e) {
-            throw new DaoException("Can't find this studDomain", e);// e.printStackTrace();
+            throw new DaoException("Can't find this studDomain", e);
         }
         return studDomain;
     }
 
     @Override
     public StudDomain findByFullName(String firstName, String lastName) throws DaoException {
-        StudDomain studDomain = new StudDomain();
+        StudDomain studDomain;
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_FULL_NAME)) {
             statement.setString(1, firstName);
@@ -72,7 +73,7 @@ public class StudJDBC implements StudDao {
                         resultSet.getDate("enrolment_date").toLocalDate());
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Can't find this studDomain", e);
         }
         return studDomain;
     }
@@ -121,7 +122,7 @@ public class StudJDBC implements StudDao {
             statement.setLong(6, studDomain.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Can't update this studDomain", e);
         }
         return studDomain;
     }
@@ -133,7 +134,7 @@ public class StudJDBC implements StudDao {
             statement.setLong(1, studDomain.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new DaoException("Can't delete this studDomain", e);
         }
     }
 }
