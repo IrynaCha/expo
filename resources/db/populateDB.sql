@@ -13,3 +13,23 @@ CREATE TABLE STUDENTS (
 	ENROLMENT_DATE DATE,
 	CONSTRAINT FK_STUDENTS_GROUPS FOREIGN KEY(GROUP_ID) REFERENCES GROUPS(GROUP_ID)
 );
+
+INSERT INTO GROUPS (GROUP_NAME)
+VALUES
+	('A-1'),
+	('B-1'),
+	('C-1'),
+	('D-1'),
+	('E-1');
+
+INSERT INTO STUDENTS (ENROLMENT_DATE, FIRST_NAME, LAST_NAME, EMAIL, PHONE_NUMBER)
+VALUES
+	('2000-12-22', 'A', 'AAA', 'a@a.com', '111111'),
+	('2000-12-20', 'B', 'BBB', 'b@b.com', '222222'),
+	('2000-11-03', 'C', 'CCC', 'c@c.com', '333333'),
+	('2000-11-04', 'D', 'DDD', 'd@d.com', '777777'),
+	('2000-11-05', 'E', 'EEE', 'e@e.com', '444444'),
+	('2000-11-06', 'F', 'FFF', 'f@f.com', '555555'),
+	('2000-11-07', 'G', 'GGG', 'g@g.com', '666666'),
+	('2000-11-07', 'H', 'HHH', 'h@h.com', '777777'),
+	('2000-11-04', 'I', 'III', 'i@i.com', '888888');
