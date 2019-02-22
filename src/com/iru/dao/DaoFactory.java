@@ -20,7 +20,7 @@ public class DaoFactory {
         Path currentPath = Paths.get("");
         String s = currentPath.toAbsolutePath().toString();
         try {
-            properties.load(new FileInputStream(s + "\\resources\\db.properties"));
+            properties.load(new FileInputStream(s + "\\resources\\db\\db.properties"));
         } catch (IOException e) {
             e.printStackTrace();
         }
