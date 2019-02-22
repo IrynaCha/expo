@@ -37,13 +37,11 @@ public class StudJDBC implements StudDao {
 
     @Override
     public StudDomain findById(Long id) throws DaoException {
-        StudDomain studDomain;// = new StudDomain();
-
-
-        ResultSet resultSet = null;
-        try (Connection connection = daoFactory.getConnection();PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)){
+        StudDomain studDomain;
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
                 return null;
             } else {
@@ -51,14 +49,6 @@ public class StudJDBC implements StudDao {
             }
         } catch (SQLException e) {
             throw new DaoException("Can't find this studDomain", e);// e.printStackTrace();
-        } finally {
-            try {
-                resultSet.close();
-//                statement.close();
-//                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return studDomain;
     }
@@ -66,37 +56,32 @@ public class StudJDBC implements StudDao {
     @Override
     public StudDomain findByFullName(String firstName, String lastName) throws DaoException {
         StudDomain studDomain = new StudDomain();
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet resultSet = null;
-        try {
-            connection = daoFactory.getConnection();
-            statement = connection.prepareStatement(SQL_FIND_BY_FULL_NAME);
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_FULL_NAME)) {
             statement.setString(1, firstName);
             statement.setString(2, lastName);
-            resultSet = statement.executeQuery();
+            ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
                 return null;
             } else {
-                studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
+                studDomain = new StudDomain(resultSet.getString("first_name"),
+                        resultSet.getString("last_name"),
+                        resultSet.getString("email"),
+                        resultSet.getString("phone_number"),
+                        resultSet.getLong("student_id"),
+                        resultSet.getDate("enrolment_date").toLocalDate());
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                resultSet.close();
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return studDomain;
     }
 
     @Override
     public List<StudDomain> list() throws DaoException {
-        try (Connection connection = daoFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_SHOW_LIST); ResultSet resultSet = statement.executeQuery()) {
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_SHOW_LIST)) {
+            ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 do {
                     StudDomain studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
@@ -111,12 +96,7 @@ public class StudJDBC implements StudDao {
 
     @Override
     public StudDomain create(StudDomain studDomain) throws DaoException {
-
-        Connection connection = null;
-        PreparedStatement statement = null;
-        try {
-            connection = daoFactory.getConnection();
-            statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS);
+        try (Connection connection = daoFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, studDomain.getFirstName());
             statement.setString(2, studDomain.getLastName());
             statement.setString(3, studDomain.getEmail());
@@ -125,13 +105,6 @@ public class StudJDBC implements StudDao {
             statement.execute();
         } catch (SQLException e) {
             throw new DaoException("Can't create a new studDomain", e);
-        } finally {
-            try {
-                statement.close();
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return studDomain;
     }
