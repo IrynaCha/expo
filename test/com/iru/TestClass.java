@@ -5,8 +5,6 @@ import com.iru.dao.JDBC.StudJDBC;
 import com.iru.domain.StudDomain;
 import org.junit.Test;
 
-import java.time.LocalDate;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -19,23 +17,14 @@ public class TestClass {
         assertEquals(studDomain.getId(), id);
     }
 
-  /*  @Test
-    public void shouldFindStudDomainByFullName() throws Exception {
-        StudJDBC obj = new StudJDBC(new DaoFactory());
-        String firstName = "A";
-        String lastName = "AAA";
-        StudDomain studDomain = obj.findByFullName(firstName, lastName);
-        assertEquals(studDomain.getFirstName(), firstName);
-    }
-
     @Test
     public void shouldShowStudDomainsList() throws Exception {
         StudJDBC obj = new StudJDBC(new DaoFactory());
-        int expected = 16;
-        int actual = obj.list().size();
+        int expected = 17;
+        int actual = obj.showList().size();
         assertEquals(expected, actual);
     }
-
+/*
     @Test
     public void shouldCreateNewStudDomain() throws Exception {
         StudJDBC obj = new StudJDBC(new DaoFactory());
