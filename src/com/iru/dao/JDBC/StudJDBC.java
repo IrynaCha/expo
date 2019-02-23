@@ -10,27 +10,23 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StudJDBC implements StudDao, GenericDao<StudDomain> {
+public class StudJDBC implements StudDao {
     private DaoFactory daoFactory;
-    private List<StudDomain> list = new ArrayList<>();
 
     private static final String SQL_FIND_BY_ID =
-            "SELECT * FROM students where student_id = ?;";
+            "SELECT * FROM student where id = ?";
 
     private static final String SQL_SHOW_LIST =
-            "SELECT * FROM students;";
-
-    private static final String SQL_FIND_BY_FULL_NAME =
-            "SELECT * FROM students where first_name = ? and last_name = ?;";
+            "SELECT * FROM student";
 
     private static final String SQL_INSERT_STUDENT =
-            "INSERT INTO students(first_name, last_name, email, phone_number, enrolment_date) VALUES (?, ?, ?, ?, ?);";
+            "INSERT INTO student(first_name, last_name, email, phone_number, enrolment_date, group_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String SQL_UPDATE_STUDENT =
-            "UPDATE students SET first_name = ?, last_name = ?, email = ?, phone_number = ?, enrolment_date = ?::DATE WHERE student_id = ?;";
+            "UPDATE student SET first_name = ?, last_name = ?, email = ?, phone_number = ?, enrolment_date = ?::DATE, group_id = ? WHERE id = ?";
 
     private static final String SQL_DELETE_STUDENT =
-            "DELETE FROM students WHERE student_id = ?;";
+            "DELETE FROM student WHERE id = ?";
 
     public StudJDBC(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
@@ -38,39 +34,19 @@ public class StudJDBC implements StudDao, GenericDao<StudDomain> {
 
     @Override
     public StudDomain findById(Long id) throws DaoException {
-        StudDomain studDomain;
+        StudDomain studDomain = null;
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
-                return null;
-            } else {
-                studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
-            }
-        } catch (SQLException e) {
-            throw new DaoException("Can't find this studDomain", e);
-        }
-        return studDomain;
-    }
-
-    @Override
-    public StudDomain findByFullName(String firstName, String lastName) throws DaoException {
-        StudDomain studDomain;
-        try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_FULL_NAME)) {
-            statement.setString(1, firstName);
-            statement.setString(2, lastName);
-            ResultSet resultSet = statement.executeQuery();
-            if (!resultSet.next()) {
-                return null;
-            } else {
                 studDomain = new StudDomain(resultSet.getString("first_name"),
                         resultSet.getString("last_name"),
                         resultSet.getString("email"),
                         resultSet.getString("phone_number"),
-                        resultSet.getLong("student_id"),
-                        resultSet.getDate("enrolment_date").toLocalDate());
+                        resultSet.getLong("id"),
+                        resultSet.getDate("enrolment_date").toLocalDate(),
+                        resultSet.getLong("group_id"));
             }
         } catch (SQLException e) {
             throw new DaoException("Can't find this studDomain", e);
@@ -79,13 +55,20 @@ public class StudJDBC implements StudDao, GenericDao<StudDomain> {
     }
 
     @Override
-    public List<StudDomain> list() throws DaoException {
+    public List<StudDomain> showList() throws DaoException {
+        List<StudDomain> list = new ArrayList<>();
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(SQL_SHOW_LIST)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 do {
-                    StudDomain studDomain = new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("student_id"), resultSet.getDate("enrolment_date").toLocalDate());
+                    StudDomain studDomain = new StudDomain(resultSet.getString("first_name"),
+                            resultSet.getString("last_name"),
+                            resultSet.getString("email"),
+                            resultSet.getString("phone_number"),
+                            resultSet.getLong("id"),
+                            resultSet.getDate("enrolment_date").toLocalDate(),
+                            resultSet.getLong("group_id"));
                     list.add(studDomain);
                 } while (resultSet.next());
             }
@@ -97,12 +80,14 @@ public class StudJDBC implements StudDao, GenericDao<StudDomain> {
 
     @Override
     public StudDomain create(StudDomain studDomain) throws DaoException {
-        try (Connection connection = daoFactory.getConnection(); PreparedStatement statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+        try (Connection connection = daoFactory.getConnection();
+             PreparedStatement statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, studDomain.getFirstName());
             statement.setString(2, studDomain.getLastName());
             statement.setString(3, studDomain.getEmail());
             statement.setString(4, studDomain.getPhoneNumber());
             statement.setDate(5, Date.valueOf(studDomain.getEnrolmentDate()));
+            statement.setLong(6, studDomain.getGroup_id());
             statement.execute();
         } catch (SQLException e) {
             throw new DaoException("Can't create a new studDomain", e);
