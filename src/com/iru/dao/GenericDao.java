@@ -1,6 +1,5 @@
 package com.iru.dao;
 
-import java.io.Serializable;
 import java.util.List;
 
 public interface GenericDao<T> {
