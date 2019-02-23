@@ -6,28 +6,28 @@ import java.util.Objects;
 public class StudDomain extends PersonaDomain {
     private Long id;
     private LocalDate enrolmentDate;
+    private Long group_id;
 
     public StudDomain() {
     }
 
-    public StudDomain(String firstName, String lastName) {
-        super(firstName, lastName);
-    }
-
-    public StudDomain(Long id, LocalDate enrolmentDate) {
+    public StudDomain(Long id, LocalDate enrolmentDate, Long group_id) {
         this.id = id;
         this.enrolmentDate = enrolmentDate;
+        this.group_id = group_id;
     }
 
-    public StudDomain(String firstName, String lastName, String email, String phoneNumber, Long id, LocalDate enrolmentDate) {
+    public StudDomain(String firstName, String lastName, String email, String phoneNumber, Long id, LocalDate enrolmentDate, Long group_id) {
         super(firstName, lastName, email, phoneNumber);
         this.id = id;
         this.enrolmentDate = enrolmentDate;
+        this.group_id = group_id;
     }
 
-    public StudDomain(String firstName, String lastName, String email, String phoneNumber, LocalDate enrolmentDate) {
+    public StudDomain(String firstName, String lastName, String email, String phoneNumber, LocalDate enrolmentDate, Long group_id) {
         super(firstName, lastName, email, phoneNumber);
         this.enrolmentDate = enrolmentDate;
+        this.group_id = group_id;
     }
 
     public Long getId() {
@@ -44,6 +44,14 @@ public class StudDomain extends PersonaDomain {
 
     public void setEnrolmentDate(LocalDate enrolmentDate) {
         this.enrolmentDate = enrolmentDate;
+    }
+
+    public Long getGroup_id() {
+        return group_id;
+    }
+
+    public void setGroup_id(Long group_id) {
+        this.group_id = group_id;
     }
 
     @Override
