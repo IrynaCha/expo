@@ -5,20 +5,20 @@ import java.util.List;
 import java.util.Objects;
 
 public class TeachDomain extends PersonaDomain {
-    private int id;
+    private Long id;
     private String position;
     private List<SubjDomain> subjDomains = new ArrayList<>();
 
     public TeachDomain() {
     }
 
-    public TeachDomain(int id, String position, List<SubjDomain> subjDomains) {
+    public TeachDomain(Long id, String position, List<SubjDomain> subjDomains) {
         this.id = id;
         this.position = position;
         this.subjDomains = subjDomains;
     }
 
-    public TeachDomain(String firstName, String lastName, String email, String phoneNumber, int id, String position, List<SubjDomain> subjDomains) {
+    public TeachDomain(String firstName, String lastName, String email, String phoneNumber, Long id, String position, List<SubjDomain> subjDomains) {
         super(firstName, lastName, email, phoneNumber);
         this.id = id;
         this.position = position;
@@ -30,11 +30,11 @@ public class TeachDomain extends PersonaDomain {
         this.position = position;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
