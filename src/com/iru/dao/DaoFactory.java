@@ -8,25 +8,21 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 public class DaoFactory {
-    private static String url;
-    private static String user;
-    private static String password;
+    private static Properties properties;
 
     public Connection getConnection() {
-        if (url == null || user == null || password == null) {
-            Properties properties = new Properties();
+        if (properties == null) {
+            properties = new Properties();
             try {
                 properties.load(new FileInputStream("resources/db/db.properties"));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            url = properties.getProperty("url");
-            user = properties.getProperty("username");
-            password = properties.getProperty("password");
         }
         Connection connection = null;
         try {
-            connection = DriverManager.getConnection(url, user, password);
+            connection =
+                    DriverManager.getConnection(properties.getProperty("url"), properties.getProperty("username"), properties.getProperty("password"));
         } catch (SQLException e) {
             e.printStackTrace();
         }
