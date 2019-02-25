@@ -2,7 +2,6 @@ package com.iru.dao.JDBC;
 
 import com.iru.dao.DaoException;
 import com.iru.dao.DaoFactory;
-import com.iru.dao.GenericDao;
 import com.iru.dao.StudDao;
 import com.iru.domain.StudDomain;
 
@@ -13,40 +12,38 @@ import java.util.List;
 public class StudJDBC implements StudDao {
     private DaoFactory daoFactory;
 
-    private static final String SQL_FIND_BY_ID =
+    private static final String FIND_BY_ID =
             "SELECT * FROM student where id = ?";
 
-    private static final String SQL_SHOW_LIST =
+    private static final String FIND_ALL =
             "SELECT * FROM student";
 
-    private static final String SQL_INSERT_STUDENT =
+    private static final String INSERT_STUDENT =
             "INSERT INTO student(first_name, last_name, email, phone_number, enrolment_date, group_id) VALUES (?, ?, ?, ?, ?, ?)";
 
-    private static final String SQL_UPDATE_STUDENT =
+    private static final String UPDATE_STUDENT =
             "UPDATE student SET first_name = ?, last_name = ?, email = ?, phone_number = ?, enrolment_date = ?::DATE, group_id = ? WHERE id = ?";
 
-    private static final String SQL_DELETE_STUDENT =
+    private static final String DELETE_STUDENT =
             "DELETE FROM student WHERE id = ?";
 
     public StudJDBC(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
     }
 
+    private StudDomain mapFromResultSet(ResultSet resultSet) throws SQLException {
+        return new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("id"), resultSet.getDate("enrolment_date").toLocalDate(), resultSet.getLong("group_id"));
+    }
+
     @Override
     public StudDomain findById(Long id) throws DaoException {
         StudDomain studDomain = null;
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_FIND_BY_ID)) {
+             PreparedStatement statement = connection.prepareStatement(FIND_BY_ID)) {
             statement.setLong(1, id);
             ResultSet resultSet = statement.executeQuery();
             if (!resultSet.next()) {
-                studDomain = new StudDomain(resultSet.getString("first_name"),
-                        resultSet.getString("last_name"),
-                        resultSet.getString("email"),
-                        resultSet.getString("phone_number"),
-                        resultSet.getLong("id"),
-                        resultSet.getDate("enrolment_date").toLocalDate(),
-                        resultSet.getLong("group_id"));
+                studDomain = mapFromResultSet(resultSet);
             }
         } catch (SQLException e) {
             throw new DaoException("Can't find this studDomain", e);
@@ -55,20 +52,14 @@ public class StudJDBC implements StudDao {
     }
 
     @Override
-    public List<StudDomain> showList() throws DaoException {
+    public List<StudDomain> findAll() throws DaoException {
         List<StudDomain> list = new ArrayList<>();
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_SHOW_LIST)) {
+             PreparedStatement statement = connection.prepareStatement(FIND_ALL)) {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 do {
-                    StudDomain studDomain = new StudDomain(resultSet.getString("first_name"),
-                            resultSet.getString("last_name"),
-                            resultSet.getString("email"),
-                            resultSet.getString("phone_number"),
-                            resultSet.getLong("id"),
-                            resultSet.getDate("enrolment_date").toLocalDate(),
-                            resultSet.getLong("group_id"));
+                    StudDomain studDomain = mapFromResultSet(resultSet);
                     list.add(studDomain);
                 } while (resultSet.next());
             }
@@ -81,7 +72,7 @@ public class StudJDBC implements StudDao {
     @Override
     public StudDomain create(StudDomain studDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, studDomain.getFirstName());
             statement.setString(2, studDomain.getLastName());
             statement.setString(3, studDomain.getEmail());
@@ -98,7 +89,7 @@ public class StudJDBC implements StudDao {
     @Override
     public StudDomain update(StudDomain studDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_UPDATE_STUDENT)) {
+             PreparedStatement statement = connection.prepareStatement(UPDATE_STUDENT)) {
             statement.setString(1, studDomain.getFirstName());
             statement.setString(2, studDomain.getLastName());
             statement.setString(3, studDomain.getEmail());
@@ -115,7 +106,7 @@ public class StudJDBC implements StudDao {
     @Override
     public void delete(StudDomain studDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(SQL_DELETE_STUDENT)) {
+             PreparedStatement statement = connection.prepareStatement(DELETE_STUDENT)) {
             statement.setLong(1, studDomain.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
