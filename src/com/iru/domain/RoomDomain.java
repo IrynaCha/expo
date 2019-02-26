@@ -3,13 +3,13 @@ package com.iru.domain;
 import java.util.Objects;
 
 public class RoomDomain {
-    private int id;
+    private Long id;
     private String number;
 
     public RoomDomain() {
     }
 
-    public RoomDomain(int id, String number) {
+    public RoomDomain(Long id, String number) {
         this.id = id;
         this.number = number;
     }
@@ -18,11 +18,11 @@ public class RoomDomain {
         this.number = number;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
