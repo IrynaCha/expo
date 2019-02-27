@@ -18,7 +18,7 @@ public class SubjJDBC implements SubjDao {
     private static final String FIND_ALL =
             "SELECT * FROM subject";
 
-    private static final String INSERT_SUBJECT =
+    private static final String CREATE_SUBJECT =
             "INSERT INTO subject(name) VALUES (?)";
 
     private static final String UPDATE_SUBJECT =
@@ -29,10 +29,6 @@ public class SubjJDBC implements SubjDao {
 
     public SubjJDBC(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
-    }
-
-    private SubjDomain mapFromResultSet(ResultSet resultSet)throws SQLException{
-        return new SubjDomain(resultSet.getString("name"));
     }
 
     @Override
@@ -72,7 +68,7 @@ public class SubjJDBC implements SubjDao {
     @Override
     public SubjDomain create(SubjDomain subjDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_SUBJECT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE_SUBJECT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, subjDomain.getName());
             statement.execute();
         } catch (SQLException e) {
@@ -102,5 +98,9 @@ public class SubjJDBC implements SubjDao {
         } catch (SQLException e) {
             throw new DaoException("Can't delete this subjDomain", e);
         }
+    }
+
+    private SubjDomain mapFromResultSet(ResultSet resultSet)throws SQLException{
+        return new SubjDomain(resultSet.getString("name"));
     }
 }
