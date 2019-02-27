@@ -6,28 +6,28 @@ import java.util.Objects;
 public class StudDomain extends PersonaDomain {
     private Long id;
     private LocalDate enrolmentDate;
-    private Long group_id;
+    private Long groupId;
 
     public StudDomain() {
     }
 
-    public StudDomain(Long id, LocalDate enrolmentDate, Long group_id) {
+    public StudDomain(Long id, LocalDate enrolmentDate, Long groupId) {
         this.id = id;
         this.enrolmentDate = enrolmentDate;
-        this.group_id = group_id;
+        this.groupId = groupId;
     }
 
-    public StudDomain(String firstName, String lastName, String email, String phoneNumber, Long id, LocalDate enrolmentDate, Long group_id) {
+    public StudDomain(String firstName, String lastName, String email, String phoneNumber, Long id, LocalDate enrolmentDate, Long groupId) {
         super(firstName, lastName, email, phoneNumber);
         this.id = id;
         this.enrolmentDate = enrolmentDate;
-        this.group_id = group_id;
+        this.groupId = groupId;
     }
 
-    /*public StudDomain(String firstName, String lastName, String email, String phoneNumber, LocalDate enrolmentDate, Long group_id) {
+    /*public StudDomain(String firstName, String lastName, String email, String phoneNumber, LocalDate enrolmentDate, Long groupId) {
         super(firstName, lastName, email, phoneNumber);
         this.enrolmentDate = enrolmentDate;
-        this.group_id = group_id;
+        this.groupId = groupId;
     }*/
 
     public Long getId() {
@@ -46,12 +46,12 @@ public class StudDomain extends PersonaDomain {
         this.enrolmentDate = enrolmentDate;
     }
 
-    public Long getGroup_id() {
-        return group_id;
+    public Long getGroupId() {
+        return groupId;
     }
 
-    public void setGroup_id(Long group_id) {
-        this.group_id = group_id;
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
     }
 
     @Override
