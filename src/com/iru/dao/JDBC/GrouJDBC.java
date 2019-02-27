@@ -101,7 +101,6 @@ public class GrouJDBC implements GrouDao {
     }
 
     private GrouDomain mapFromResultSet(ResultSet resultSet) throws SQLException {
-        return new GrouDomain(resultSet.getString("name"),
-                resultSet.getLong("department_id"));
+        return new GrouDomain(resultSet.getLong("department_id"), resultSet.getString("name"));
     }
 }
