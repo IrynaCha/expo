@@ -24,11 +24,11 @@ public class StudDomain extends PersonaDomain {
         this.group_id = group_id;
     }
 
-    public StudDomain(String firstName, String lastName, String email, String phoneNumber, LocalDate enrolmentDate, Long group_id) {
+    /*public StudDomain(String firstName, String lastName, String email, String phoneNumber, LocalDate enrolmentDate, Long group_id) {
         super(firstName, lastName, email, phoneNumber);
         this.enrolmentDate = enrolmentDate;
         this.group_id = group_id;
-    }
+    }*/
 
     public Long getId() {
         return id;
