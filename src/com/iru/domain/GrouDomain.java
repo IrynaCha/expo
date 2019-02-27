@@ -5,7 +5,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class GrouDomain {
-    private int id;
+    private Long id;
+    private Long department_id;
     private String name;
     private List<StudDomain> students = new ArrayList<>();
 
@@ -21,17 +22,29 @@ public class GrouDomain {
         this.students = students;
     }
 
-    public GrouDomain(int id, String name, List<StudDomain> students) {
+    public GrouDomain(Long id, String name, List<StudDomain> students) {
         this.id = id;
         this.name = name;
         this.students = students;
     }
 
-    public int getId() {
+    public GrouDomain(Long id, Long department_id, String name, List<StudDomain> students) {
+        this.id = id;
+        this.department_id = department_id;
+        this.name = name;
+        this.students = students;
+    }
+
+    public GrouDomain(Long department_id, String name) {
+        this.department_id = department_id;
+        this.name = name;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -41,6 +54,14 @@ public class GrouDomain {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getDepartment_id() {
+        return department_id;
+    }
+
+    public void setDepartment_id(Long department_id) {
+        this.department_id = department_id;
     }
 
     public List<StudDomain> getStudents() {
