@@ -31,10 +31,6 @@ public class RoomJDBC implements RoomDao {
         this.daoFactory = daoFactory;
     }
 
-    private RoomDomain mapFromResultSet(ResultSet resultSet) throws SQLException {
-        return new RoomDomain(resultSet.getString("number"));
-    }
-
     @Override
     public RoomDomain findById(Long id) throws DaoException {
         RoomDomain roomDomain = null;
@@ -102,5 +98,9 @@ public class RoomJDBC implements RoomDao {
         } catch (SQLException e) {
             throw new DaoException("Can't delete this studDomain", e);
         }
+    }
+
+    private RoomDomain mapFromResultSet(ResultSet resultSet) throws SQLException {
+        return new RoomDomain(resultSet.getString("number"));
     }
 }
