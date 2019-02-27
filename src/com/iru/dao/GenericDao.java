@@ -5,7 +5,7 @@ import java.util.List;
 public interface GenericDao<T> {
     T findById(Long id) throws DaoException;
 
-    List<T> showList() throws DaoException;
+    List<T> findAll() throws DaoException;
 
     T create(T newInstance) throws DaoException;
 
