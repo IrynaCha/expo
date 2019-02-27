@@ -18,7 +18,7 @@ public class StudJDBC implements StudDao {
     private static final String FIND_ALL =
             "SELECT * FROM student";
 
-    private static final String INSERT_STUDENT =
+    private static final String CREATE_STUDENT =
             "INSERT INTO student(first_name, last_name, email, phone_number, enrolment_date, group_id) VALUES (?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_STUDENT =
@@ -29,10 +29,6 @@ public class StudJDBC implements StudDao {
 
     public StudJDBC(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
-    }
-
-    private StudDomain mapFromResultSet(ResultSet resultSet) throws SQLException {
-        return new StudDomain(resultSet.getString("first_name"), resultSet.getString("last_name"), resultSet.getString("email"), resultSet.getString("phone_number"), resultSet.getLong("id"), resultSet.getDate("enrolment_date").toLocalDate(), resultSet.getLong("group_id"));
     }
 
     @Override
@@ -72,13 +68,13 @@ public class StudJDBC implements StudDao {
     @Override
     public StudDomain create(StudDomain studDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE_STUDENT, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, studDomain.getFirstName());
             statement.setString(2, studDomain.getLastName());
             statement.setString(3, studDomain.getEmail());
             statement.setString(4, studDomain.getPhoneNumber());
             statement.setDate(5, Date.valueOf(studDomain.getEnrolmentDate()));
-            statement.setLong(6, studDomain.getGroup_id());
+            statement.setLong(6, studDomain.getGroupId());
             statement.execute();
         } catch (SQLException e) {
             throw new DaoException("Can't create a new studDomain", e);
@@ -112,5 +108,15 @@ public class StudJDBC implements StudDao {
         } catch (SQLException e) {
             throw new DaoException("Can't delete this studDomain", e);
         }
+    }
+
+    private StudDomain mapFromResultSet(ResultSet resultSet) throws SQLException {
+        return new StudDomain(resultSet.getString("first_name"),
+                resultSet.getString("last_name"),
+                resultSet.getString("email"),
+                resultSet.getString("phone_number"),
+                resultSet.getLong("id"),
+                resultSet.getDate("enrolment_date").toLocalDate(),
+                resultSet.getLong("group_id"));
     }
 }
