@@ -18,7 +18,7 @@ public class RoomJDBC implements RoomDao {
     private static final String FIND_ALL =
             "SELECT * FROM room";
 
-    private static final String INSERT_ROOM =
+    private static final String CREATE_ROOM =
             "INSERT INTO room(number) VALUES (?)";
 
     private static final String UPDATE_ROOM =
@@ -68,7 +68,7 @@ public class RoomJDBC implements RoomDao {
     @Override
     public RoomDomain create(RoomDomain roomDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_ROOM, PreparedStatement.RETURN_GENERATED_KEYS)) {
+             PreparedStatement statement = connection.prepareStatement(CREATE_ROOM, PreparedStatement.RETURN_GENERATED_KEYS)) {
             statement.setString(1, roomDomain.getNumber());
             statement.execute();
         } catch (SQLException e) {
@@ -84,7 +84,7 @@ public class RoomJDBC implements RoomDao {
             statement.setString(1, roomDomain.getNumber());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Can't update this studDomain", e);
+            throw new DaoException("Can't update this roomDomain", e);
         }
         return roomDomain;
     }
@@ -96,7 +96,7 @@ public class RoomJDBC implements RoomDao {
             statement.setLong(1, roomDomain.getId());
             statement.executeUpdate();
         } catch (SQLException e) {
-            throw new DaoException("Can't delete this studDomain", e);
+            throw new DaoException("Can't delete this roomDomain", e);
         }
     }
 
