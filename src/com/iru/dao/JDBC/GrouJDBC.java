@@ -15,15 +15,15 @@ import java.util.List;
 public class GrouJDBC implements GrouDao {
     private DaoFactory daoFactory;
 
-    private static final String FIND_ALL = "SELECT * FROM group";
+    private static final String FIND_ALL = "SELECT * FROM \"group\"";
 
-    private static final String FIND_BY_ID = "SELECT * FROM group WHERE id = ?";
+    private static final String FIND_BY_ID = "SELECT * FROM \"group\" WHERE id = ?";
 
-    private static final String INSERT_GROUP = "INSERT INTO group(id, department_id, name) VALUES (?, ?, ?)";
+    private static final String CREATE_GROUP = "INSERT INTO \"group\"(id, department_id, name) VALUES (?, ?, ?)";
 
-    private static final String UPDATE_GROUP = "UPDATE group SET department_id = ?, name = ? WHERE id = ?";
+    private static final String UPDATE_GROUP = "UPDATE \"group\" SET department_id = ?, name = ? WHERE id = ?";
 
-    private static final String DELETE_GROUP = "DELETE FROM group WHERE id = ?";
+    private static final String DELETE_GROUP = "DELETE FROM \"group\" WHERE id = ?";
 
     public GrouJDBC(DaoFactory daoFactory) {
         this.daoFactory = daoFactory;
@@ -66,8 +66,8 @@ public class GrouJDBC implements GrouDao {
     @Override
     public GrouDomain create(GrouDomain grouDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
-             PreparedStatement statement = connection.prepareStatement(INSERT_GROUP, PreparedStatement.RETURN_GENERATED_KEYS)) {
-            statement.setLong(1, grouDomain.getDepartment_id());
+             PreparedStatement statement = connection.prepareStatement(CREATE_GROUP, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            statement.setLong(1, grouDomain.getDepartmentId());
             statement.setString(2, grouDomain.getName());
             statement.executeQuery();
         } catch (SQLException e) {
@@ -80,7 +80,7 @@ public class GrouJDBC implements GrouDao {
     public GrouDomain update(GrouDomain grouDomain) throws DaoException {
         try (Connection connection = daoFactory.getConnection();
              PreparedStatement statement = connection.prepareStatement(UPDATE_GROUP)) {
-            statement.setLong(1, grouDomain.getDepartment_id());
+            statement.setLong(1, grouDomain.getDepartmentId());
             statement.setString(2, grouDomain.getName());
             statement.executeUpdate();
         } catch (SQLException e) {
