@@ -4,7 +4,7 @@ CREATE TABLE department (
   abbreviation TEXT
 );
 
-CREATE TABLE group (
+CREATE TABLE "group" (
   id            SERIAL PRIMARY KEY,
   department_id int,
   name          TEXT,
@@ -19,7 +19,7 @@ CREATE TABLE student (
   phone_number   TEXT,
   enrolment_date DATE,
   group_id       int,
-  CONSTRAINT FK_STUDENTS_GROUPS FOREIGN KEY (group_id) REFERENCES group (id)
+  CONSTRAINT FK_STUDENTS_GROUPS FOREIGN KEY (group_id) REFERENCES "group" (id)
 );
 
 CREATE TABLE room (
