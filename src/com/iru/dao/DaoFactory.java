@@ -12,12 +12,7 @@ public class DaoFactory {
 
     public Connection getConnection() {
         if (properties == null) {
-            properties = new Properties();
-            try {
-                properties.load(new FileInputStream("resources/db/db.properties"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            checkProperties();
         }
         Connection connection = null;
         try {
@@ -27,5 +22,15 @@ public class DaoFactory {
             e.printStackTrace();
         }
         return connection;
+    }
+
+    private boolean checkProperties() {
+        properties = new Properties();
+        try {
+            properties.load(new FileInputStream("resources/db/db.properties"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
 }
