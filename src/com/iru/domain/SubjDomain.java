@@ -3,13 +3,13 @@ package com.iru.domain;
 import java.util.Objects;
 
 public class SubjDomain {
-    private int id;
+    private Long id;
     private String name;
 
     public SubjDomain() {
     }
 
-    public SubjDomain(int id, String name) {
+    public SubjDomain(Long id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -18,11 +18,11 @@ public class SubjDomain {
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
