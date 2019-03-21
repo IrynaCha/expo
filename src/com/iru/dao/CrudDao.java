@@ -2,7 +2,7 @@ package com.iru.dao;
 
 import java.util.List;
 
-public interface GenericDao<T> {
+public interface CrudDao<T> {
     T findById(Long id) throws DaoException;
 
     List<T> findAll() throws DaoException;
