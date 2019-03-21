@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class DepaDomain {
-    private int id;
+    private Long id;
     private String name;
     private String abbreviation;
     private List<GrouDomain> grouDomains = new ArrayList<>();
@@ -15,8 +15,7 @@ public class DepaDomain {
     public DepaDomain() {
     }
 
-    public DepaDomain(int id, String name, String abbreviation, List<GrouDomain> grouDomains, List<TeachDomain> teachDomains,
-                      List<SubjDomain> subjDomains) {
+    public DepaDomain(Long id, String name, String abbreviation, List<GrouDomain> grouDomains, List<TeachDomain> teachDomains, List<SubjDomain> subjDomains) {
         this.id = id;
         this.name = name;
         this.abbreviation = abbreviation;
@@ -29,11 +28,11 @@ public class DepaDomain {
         this.name = name;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
